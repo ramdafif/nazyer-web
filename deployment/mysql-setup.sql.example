@@ -1,0 +1,8 @@
+-- Run manually in a privileged MySQL session. Replace the password BEFORE use.
+-- Existing MySQL instance only. No global settings or other databases are changed.
+CREATE DATABASE dj_nazyer CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+CREATE USER 'nazyer_app'@'127.0.0.1' IDENTIFIED BY 'REPLACE_WITH_GENERATED_PASSWORD';
+GRANT SELECT, INSERT, UPDATE, DELETE, CREATE, ALTER, INDEX, DROP, REFERENCES
+    ON dj_nazyer.* TO 'nazyer_app'@'127.0.0.1';
+-- If DATABASE_URL uses 127.0.0.1, this host entry matches. Do not use root in Flask.
+-- Verify only this schema appears in SHOW GRANTS FOR 'nazyer_app'@'127.0.0.1';

@@ -1,0 +1,14 @@
+{% macro field(field) %}
+    <div class="field">
+        {{ field.label }}{{ field(aria_invalid='true' if field.errors else 'false',
+            aria_describedby=field.id ~ '-help') }}
+        <div class="field-help" id="{{ field.id }}-help">
+            {% if field.description %}
+                <small>{{ field.description }}</small>
+            {% endif %}
+            {% for error in field.errors %}
+                <small class="field-error" role="alert">{{ error }}</small>
+            {% endfor %}
+        </div>
+    </div>
+{% endmacro %}

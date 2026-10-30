@@ -1,0 +1,206 @@
+{% extends "public/layout.html" %}
+{% from 'components/media.html' import photo,lightbox_photo,lightbox %}
+{% from 'components/public.html' import empty,package_card,event_card with context %}
+{% block content %}
+    <section class="hero" aria-labelledby="hero-title">
+        <div class="hero-visual">{{ photo(artist.hero_media,'hero-photo',true) }}</div>
+        <div class="hero-shade"></div>
+        <div class="container hero-content">
+            <p class="eyebrow">
+                {{ artist.display_name }} <span class="eyebrow-line"></span> MUSIC & ENERGY
+            </p>
+            <h1 id="hero-title">
+                {{ artist.hero_line_one }}<br>
+                <span>{{ artist.hero_line_two }}</span>
+            </h1>
+            <p class="hero-description">
+                {{ artist.hero_description
+                    or 'Musik yang menyatukan. Energi yang terasa. Hadirkan suasana istimewa untuk acara Anda bersama DJ NAZYER.' }}
+            </p>
+            <div class="hero-buttons">
+                <a
+                    class="button"
+                    href="{{ url_for('public.contact') }}"
+                >{{ icon("calendar") }} Booking Sekarang {{ icon("arrow-up-right") }}</a>
+                <a
+                    class="button secondary"
+                    href="{{ url_for('public.recap') }}"
+                >{{ icon("play") }} Lihat Recap</a>
+            </div>
+            {% if artist.highlights %}
+                <div class="highlight-strip">
+                    {% for highlight in artist.highlights[:3] %}
+                        <div>
+                            {% if highlight.value %}
+                                <strong>{{ highlight.value }}</strong>
+                            {% endif %}
+                            <span>{{ highlight.label }}</span>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+            {% if artist.is_demo %}
+                <p class="demo-note">Pratinjau dengan data DEMO — bukan informasi asli.</p>
+            {% endif %}
+        </div>
+        <span class="handwriting hero-tagline">{{ artist.decorative_tagline }}</span>
+        <a
+            href="#tentang"
+            class="scroll-cue"
+            aria-label="Gulir ke tentang"
+        >SCROLL TO FEEL {{ icon("arrow-right") }}</a>
+        <div class="hero-index" aria-hidden="true">01 / THE ENERGY</div>
+    </section>
+    <section id="tentang" class="about-section section">
+        <div class="container about-grid">
+            <div class="about-portrait">
+                {{ photo(artist.portrait_media) }}
+                <span class="portrait-stamp" aria-hidden="true">BEHIND<br>THE SOUND.</span>
+            </div>
+            <div class="about-copy">
+                <p class="eyebrow">TENTANG</p>
+                <h2>
+                    More Than Just Music.<br>I’m <span>{{ artist.display_name }}.</span>
+                </h2>
+                <p class="muted">
+                    {{ artist.bio_summary
+                        or 'Kenali sosok di balik musiknya. Biografi dan cerita perjalanan DJ NAZYER segera hadir di sini.' }}
+                </p>
+                <a
+                    class="text-link"
+                    href="{{ url_for('public.about') }}"
+                >Kenal Lebih Dekat {{ icon("arrow-up-right") }}</a>
+                {% if service_types %}
+                    <div class="service-grid">
+                        {% for service in service_types[:4] %}
+                            <div>
+                                {{ icon(service.icon) }}<span>{{ service.name }}</span>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </section>
+    <section id="recap" class="section recap-section">
+        <div class="container section-heading">
+            <div>
+                <p class="eyebrow">RECAP</p>
+                <h2>Moments That Move People.</h2>
+            </div>
+            <a
+                class="text-link"
+                href="{{ url_for('public.gallery') }}"
+            >Lihat Semua Foto {{ icon("arrow-up-right") }}</a>
+        </div>
+        {% if recap_photos %}
+            <div class="recap-strip">
+                {% for asset in recap_photos %}
+                    {{ lightbox_photo(asset) }}
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="recap-strip recap-empty" aria-label="Arsip foto belum tersedia">
+                {% for i in range(6) %}
+                    <div class="abstract-photo recap-placeholder">
+                        <span>{{ '%02d'|format(i+1) }}</span>
+                        {% if loop.first %}
+                            <span
+                                class="photo-placeholder"
+                            >Momen berikutnya<br>dimulai dari sini.</span>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            </div>
+            <p
+                class="container archive-note"
+            >Arsip foto sedang disiapkan. Foto asli akan tampil setelah dipublikasikan.</p>
+        {% endif %}
+    </section>
+    {% if events %}
+        <section class="section">
+            <div class="container">
+                <div class="section-heading">
+                    <div>
+                        <p class="eyebrow">ON STAGE</p>
+                        <h2>Featured Performances.</h2>
+                    </div>
+                    <a
+                        class="text-link"
+                        href="{{ url_for('public.recap') }}"
+                    >Semua Recap {{ icon("arrow-up-right") }}</a>
+                </div>
+                <div class="event-grid">
+                    {% for event in events %}
+                        {{ event_card(event) }}
+                    {% endfor %}
+                </div>
+            </div>
+        </section>
+    {% endif %}
+    <section id="pricelist" class="section pricing-section">
+        <div class="container">
+            <div class="section-heading">
+                <div>
+                    <p class="eyebrow">PRICELIST</p>
+                    <h2>Let’s Make Your Event Unforgettable.</h2>
+                </div>
+                <span class="handwriting">Good music.<br>For every occasion.</span>
+            </div>
+            {% if packages %}
+                <div class="pricing-grid">
+                    {% for package in packages %}
+                        {{ package_card(package) }}
+                    {% endfor %}
+                </div>
+            {% else %}
+                {{ empty('Setiap event punya ceritanya.',
+                    'Diskusikan kebutuhan, konsep, dan durasi performance untuk mendapatkan penawaran yang pas.',
+                    url_for('public.contact'),
+                    'Hubungi untuk Penawaran') }}
+            {% endif %}
+            <a
+                class="subtle-link"
+                href="{{ url_for('public.pricing') }}"
+            >Lihat detail pricelist {{ icon("arrow-right") }}</a>
+        </div>
+    </section>
+    {% if testimonials %}
+        <section id="testimoni" class="section testimonials-section">
+            <div class="container">
+                <p class="eyebrow">TESTIMONI</p>
+                <h2>What They Say.</h2>
+                <div class="testimonials-grid">
+                    {% for review in testimonials %}
+                        <figure class="testimonial">
+                            {% if review.rating %}
+                                <div class="stars" aria-label="{{ review.rating }} dari 5 bintang">
+                                    {% for i in range(review.rating) %}
+                                        {{ icon("star") }}
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                            <blockquote>
+                                “{{ review.quote }}”
+                            </blockquote>
+                            <figcaption>
+                                {% if review.portrait %}
+                                    {{ photo(review.portrait) }}
+                                {% endif %}
+                                <div>
+                                    <strong>{{ review.name }}</strong>
+                                    <span>{{ review.context }}</span>
+                                    {% if review.is_demo %}
+                                        <small>DEMO</small>
+                                    {% endif %}
+                                </div>
+                            </figcaption>
+                        </figure>
+                    {% endfor %}
+                </div>
+            </div>
+        </section>
+    {% endif %}
+    {% include "public/contact_cta.html" %}
+    {{ lightbox() }}
+{% endblock %}

@@ -1,0 +1,19 @@
+# Example only; install as a NEW /etc/logrotate.d/dj-nazyer after review.
+# 13 daily archives plus the active daily file: at most 14 daily batches.
+# Keep the host's daily logrotate scheduling operational. No job is activated here.
+/var/log/nginx/dj-nazyer/access.log {
+    daily
+    rotate 13
+    maxage 13
+    missingok
+    ifempty
+    compress
+    delaycompress
+    dateext
+    dateyesterday
+    create 0640 www-data adm
+    sharedscripts
+    postrotate
+        /usr/sbin/nginx -s reopen
+    endscript
+}

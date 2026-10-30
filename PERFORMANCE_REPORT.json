@@ -1,0 +1,30 @@
+{
+  "environment": "Local Chromium 141 headless, SQLite, empty CMS, cold browser contexts, no CPU/network throttling, no HTTPS",
+  "samples": [
+    {
+      "viewport_width": 375,
+      "fcp_ms": 212,
+      "lcp_ms": 212,
+      "cls": 0.002,
+      "ttfb_ms": 86.1,
+      "resource_count": 15
+    },
+    {
+      "viewport_width": 768,
+      "fcp_ms": 88,
+      "lcp_ms": 88,
+      "cls": 0.002,
+      "ttfb_ms": 5.9,
+      "resource_count": 15
+    },
+    {
+      "viewport_width": 1280,
+      "fcp_ms": 132,
+      "lcp_ms": 132,
+      "cls": 0.001,
+      "ttfb_ms": 15.6,
+      "resource_count": 15
+    }
+  ],
+  "limits": "Synthetic samples only. No Lighthouse score or field INP measurement. Real photo content, VPS/MySQL/network latency and user devices can change these values."
+}

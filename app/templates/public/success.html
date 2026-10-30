@@ -1,0 +1,25 @@
+{% extends "public/layout.html" %}
+{% block content %}
+    <section class="section container success-panel">
+        <span class="success-icon">{{ icon("check") }}</span>
+        <p class="eyebrow">TERIMA KASIH</p>
+        <h1>
+            Inquiry Anda<br>
+            <span>sudah kami terima.</span>
+        </h1>
+        <p class="muted">
+            Tim booking kami akan meninjau rencana acara dan menghubungi Anda.<br>Ini belum merupakan konfirmasi booking.
+        </p>
+        <div class="cta-actions">
+            <a class="button secondary" href="{{ url_for('public.home') }}">Kembali ke Beranda</a>
+            {% if whatsapp_url() %}
+                <a
+                    class="button whatsapp"
+                    href="{{ whatsapp_url() }}"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >Lanjut via WhatsApp</a>
+            {% endif %}
+        </div>
+    </section>
+{% endblock %}

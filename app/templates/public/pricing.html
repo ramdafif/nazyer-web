@@ -1,0 +1,28 @@
+{% extends "public/layout.html" %}
+{% from 'components/public.html' import empty,package_card with context %}
+{% block content %}
+    <section class="page-intro container">
+        <p class="eyebrow">YOUR EVENT. YOUR ENERGY.</p>
+        <h1>
+            Let’s Make It<br>
+            <span>Unforgettable.</span>
+        </h1>
+        <p class="muted">Pilih paket dan ceritakan konsep acara Anda. Kami akan membantu menyesuaikan kebutuhan penampilannya.</p>
+    </section>
+    <section class="section compact container">
+        {% if packages %}
+            <div class="pricing-grid">
+                {% for package in packages %}
+                    {{ package_card(package) }}
+                {% endfor %}
+            </div>
+            <p class="pricing-disclaimer muted">Harga dan ketersediaan dikonfirmasi setelah kebutuhan event dibicarakan. Inquiry belum merupakan booking terkonfirmasi.</p>
+        {% else %}
+            {{ empty('Hubungi untuk Penawaran',
+                'Paket dan harga belum dipublikasikan. Ceritakan jenis acara, lokasi, dan durasi yang Anda butuhkan.',
+                url_for('public.contact'),
+                'Diskusikan Kebutuhan Event') }}
+        {% endif %}
+    </section>
+    {% include "public/contact_cta.html" %}
+{% endblock %}

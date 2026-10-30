@@ -1,0 +1,58 @@
+{% extends "public/layout.html" %}
+{% from 'components/forms.html' import field %}
+{% block content %}
+    <section class="page-intro container">
+        <p class="eyebrow">LET’S CONNECT</p>
+        <h1>
+            Your Next Event.<br>
+            <span>Let’s Talk.</span>
+        </h1>
+    </section>
+    <section class="section compact container contact-grid">
+        <div class="contact-info">
+            <h2>
+                Mulai dari<br>rencana acara Anda.
+            </h2>
+            <p class="muted">Bagikan konsep, lokasi, dan tanggal acara Anda. Tim booking kami akan menghubungi Anda untuk membicarakan detail dan ketersediaan.</p>
+            <p class="contact-note">Pengiriman inquiry belum menjadi booking terkonfirmasi.</p>
+            {% if whatsapp_url() %}
+                <a
+                    class="button whatsapp"
+                    href="{{ whatsapp_url() }}"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >{{ icon("phone") }} Hubungi via WhatsApp</a>
+            {% endif %}
+            {% if site.get("booking_email") %}
+                <a
+                    class="contact-link"
+                    href="mailto:{{ site.booking_email }}"
+                >{{ icon("mail") }} {{ site.booking_email }}</a>
+            {% endif %}
+            {% for key,(label,url) in socials.items() %}
+                <a class="contact-link" href="{{ url }}" target="_blank" rel="noopener noreferrer">{{ icon('instagram' if key=='instagram' else 'external-link') }} {{ label }} {{ icon("arrow-up-right") }}</a>
+            {% endfor %}
+        </div>
+        <form class="inquiry-form" method="post">
+            {{ form.hidden_tag() }}
+            <p class="eyebrow">BOOKING INQUIRY</p>
+            <p>Kolom bertanda * wajib diisi.</p>
+            {% if form.errors %}
+                <div
+                    class="form-summary"
+                    role="alert"
+                >Periksa kembali kolom yang ditandai di bawah.</div>
+            {% endif %}
+            <div class="form-grid">{{ field(form.name) }}{{ field(form.contact) }}{{ field(form.service_type_id) }}{{ field(form.event_date) }}</div>
+            {{ field(form.location) }}{{ field(form.package_id) }}{{ field(form.message) }}
+            <div
+                class="honeypot"
+                aria-hidden="true"
+            >{{ form.website.label }}{{ form.website(tabindex='-1',autocomplete='off') }}</div>
+            {{ form.submit(class_='button') }}
+            <p
+                class="form-privacy"
+            >Kontak Anda hanya digunakan untuk menindaklanjuti inquiry ini.</p>
+        </form>
+    </section>
+{% endblock %}

@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% from 'components/forms.html' import field %}
+{% block body %}
+    <main id="main" class="auth-shell">
+        <a class="wordmark" href="{{ url_for('public.home') }}">DJ NAZYER<span>CMS</span>
+        </a>
+        <section class="auth-card">
+            <p class="eyebrow">AKSES TERBATAS</p>
+            <h1>
+                Selamat datang<br>di balik panggung.
+            </h1>
+            <p class="muted">Kelola cerita, penampilan, dan peluang baru.</p>
+            <form method="post">
+                {{ form.hidden_tag() }}{{ field(form.username) }}{{ field(form.password) }}{{ form.submit(class_='button') }}
+            </form>
+        </section>
+    </main>
+{% endblock %}

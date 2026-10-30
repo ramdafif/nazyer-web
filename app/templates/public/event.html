@@ -1,0 +1,64 @@
+{% extends "public/layout.html" %}
+{% from 'components/media.html' import photo,lightbox_photo,lightbox %}
+{% from 'components/public.html' import event_card %}
+{% block content %}
+    <article>
+        <header class="page-intro container">
+            <a
+                class="text-link"
+                href="{{ url_for('public.recap') }}"
+            >{{ icon("arrow-left") }} Semua Recap</a>
+            <p class="eyebrow event-eyebrow">
+                {{ event.date.strftime("%d.%m.%Y") }}
+                {% if event.category %}
+                    / {{ event.category.name }}
+                {% endif %}
+                {% if event.is_demo %}
+                    / DEMO
+                {% endif %}
+            </p>
+            <h1>{{ event.title }}</h1>
+            <p class="muted">
+                {{ event.venue }}
+                {% if event.location %}
+                    · {{ event.location }}
+                {% endif %}
+            </p>
+        </header>
+        <div class="container event-cover">{{ photo(event.cover,'',true) }}</div>
+        <div class="container prose event-description">{{- event.description -}}</div>
+        {% if event.video_url %}
+            <div class="container">
+                <a
+                    class="button secondary"
+                    href="{{ event.video_url }}"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >{{ icon("play") }} Tonton Video Recap {{ icon("external-link") }}</a>
+            </div>
+        {% endif %}
+        {% if event.media %}
+            <section class="section container">
+                <h2>From That Night.</h2>
+                <div class="gallery-grid">
+                    {% for link in event.media %}
+                        {{ lightbox_photo(link.asset) }}
+                    {% endfor %}
+                </div>
+            </section>
+        {% endif %}
+    </article>
+    {% if related %}
+        <section class="section container">
+            <p class="eyebrow">KEEP THE ENERGY</p>
+            <h2>Event Lainnya.</h2>
+            <div class="event-grid">
+                {% for event in related %}
+                    {{ event_card(event) }}
+                {% endfor %}
+            </div>
+        </section>
+    {% endif %}
+    {% include "public/contact_cta.html" %}
+    {{ lightbox() }}
+{% endblock %}

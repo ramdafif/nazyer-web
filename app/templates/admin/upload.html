@@ -1,0 +1,30 @@
+{% extends "admin/layout.html" %}
+{% from 'components/forms.html' import field %}
+{% block admin_content %}
+    <div class="admin-heading">
+        <div>
+            <p class="eyebrow">MEDIA LIBRARY</p>
+            <h1>Unggah Foto</h1>
+            <p class="muted">Foto dioptimalkan satu per satu. File asli tidak disimpan.</p>
+        </div>
+        <a
+            class="button secondary"
+            href="{{ url_for('admin.entity_list',kind='media') }}"
+        >Kembali</a>
+    </div>
+    <form
+        class="admin-editor upload-form"
+        method="post"
+        enctype="multipart/form-data"
+        id="upload-form"
+    >
+        {{ form.hidden_tag() }}{{ field(form.image) }}
+        <p class="admin-tip">Dengan JavaScript aktif, beberapa file dapat dipilih dan akan diunggah berurutan. Tanpa JavaScript, pilih satu file.</p>
+        {% for f in form if f.name not in ['image','csrf_token','submit','event_id'] %}
+            {{ field(f) }}
+        {% endfor %}
+        {{ field(form.event_id) }}{{ form.submit(class_='button') }}
+        <ol id="upload-results" aria-live="polite">
+        </ol>
+    </form>
+{% endblock %}

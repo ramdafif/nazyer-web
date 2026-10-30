@@ -1,0 +1,58 @@
+{% extends "public/layout.html" %}
+{% from 'components/public.html' import empty,event_card,pagination as pager %}
+{% block content %}
+    <section class="page-intro container">
+        <p class="eyebrow">THE ARCHIVE</p>
+        <h1>
+            Moments That<br>
+            <span>Move People.</span>
+        </h1>
+        <p class="muted">Cerita dari panggung, energi yang terus tinggal.</p>
+    </section>
+    <section class="section compact">
+        <div class="container">
+            <form class="filter-form" method="get">
+                <div>
+                    <label for="kategori">Kategori</label>
+                    <select name="kategori" id="kategori">
+                        <option value="">Semua kategori</option>
+                        {% for category in categories %}
+                            <option
+                                value="{{ category.slug }}"
+                                {% if selected_category==category.slug %} selected {% endif %}
+                            >{{ category.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div>
+                    <label for="tahun">Tahun</label>
+                    <select name="tahun" id="tahun">
+                        <option value="">Semua tahun</option>
+                        {% for year in years %}
+                            <option
+                                value="{{ year|int }}"
+                                {% if selected_year==year|int %} selected {% endif %}
+                            >{{ year|int }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <button class="button secondary" type="submit">Terapkan Filter</button>
+                {% if selected_category or selected_year %}
+                    <a class="text-link" href="{{ url_for('public.recap') }}">Reset</a>
+                {% endif %}
+            </form>
+            {% if pagination.items %}
+                <div class="event-grid">
+                    {% for event in pagination.items %}
+                        {{ event_card(event) }}
+                    {% endfor %}
+                </div>
+            {% else %}
+                {{ empty('Belum ada recap untuk ditampilkan.',
+                    'Momen dari panggung akan muncul di sini setelah dipublikasikan.') }}
+            {% endif %}
+            {{ pager(pagination,'public.recap',selected_category,selected_year or '') }}
+        </div>
+    </section>
+    {% include "public/contact_cta.html" %}
+{% endblock %}

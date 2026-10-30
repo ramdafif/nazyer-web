@@ -1,0 +1,19 @@
+{% extends "admin/layout.html" %}
+{% from 'components/forms.html' import field %}
+{% block admin_content %}
+    <section class="delete-panel admin-panel">
+        <p class="eyebrow">KONFIRMASI HAPUS</p>
+        <h1>{{ title }}</h1>
+        <p>Hapus <strong>{{ label }}</strong>?</p>
+        <p class="muted">Tindakan ini tidak dapat dibatalkan. Data yang masih memiliki relasi terlindungi tidak bisa dihapus.</p>
+        <form method="post">
+            {{ form.hidden_tag() }}{{ field(form.confirm) }}
+            <div class="editor-actions">
+                {{ form.submit(class_='button danger') }}<a
+    class="button secondary"
+    href="{{ back }}"
+>Batal</a>
+            </div>
+        </form>
+    </section>
+{% endblock %}

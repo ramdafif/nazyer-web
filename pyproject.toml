@@ -1,0 +1,23 @@
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
+markers = ["browser: live-server browser checks", "mysql: requires an isolated MySQL test database"]
+addopts = "-ra"
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "I"]
+
+[tool.djlint]
+profile = "jinja"
+indent = 4
+max_line_length = 100
+max_attribute_length = 100
+keep_br_inline = true
+no_entity_formatting = true
+no_function_formatting = true
+no_set_formatting = true
+single_attribute_per_line = true

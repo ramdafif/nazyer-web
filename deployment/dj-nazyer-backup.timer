@@ -1,0 +1,12 @@
+# Example only; no timer is enabled by this repository.
+[Unit]
+Description=Daily DJ NAZYER backup at 03:15 Jakarta time
+
+[Timer]
+OnCalendar=*-*-* 03:15:00 Asia/Jakarta
+RandomizedDelaySec=5m
+Persistent=true
+Unit=dj-nazyer-backup.service
+
+[Install]
+WantedBy=timers.target

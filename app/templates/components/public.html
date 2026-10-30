@@ -1,0 +1,93 @@
+{% from 'components/icons.html' import icon %}
+{% from 'components/media.html' import photo %}
+{% macro empty(title, message, link='', label='') %}
+    <div class="empty-state">
+        <span class="empty-mark" aria-hidden="true">{{ icon("disc-3") }}</span>
+        <h3>{{ title }}</h3>
+        <p>{{ message }}</p>
+        {% if link %}
+            <a class="text-link" href="{{ link }}">{{ label }} {{ icon("arrow-up-right") }}</a>
+        {% endif %}
+    </div>
+{% endmacro %}
+{% macro package_card(package) %}
+    <article class="price-card {% if package.featured %}featured{% endif %}">
+        {% if package.featured %}
+            <span class="package-badge">Pilihan unggulan</span>
+        {% endif %}
+        <div class="price-icon">{{ icon("headphones") }}</div>
+        <h3>{{ package.name }}</h3>
+        {% if package.is_demo %}
+            <span class="demo-badge">DATA DEMO</span>
+        {% endif %}
+        <p
+            class="price-label"
+        >{{ 'Mulai dari' if package.price is not none else 'PENAWARAN PERSONAL' }}</p>
+        <p
+            class="price {{ 'quotation' if package.price is none else '' }}"
+        >{{ package.price|idr }}</p>
+        {% if package.duration %}
+            <p class="muted">{{ package.duration }}</p>
+        {% endif %}
+        {% if package.description %}
+            <p class="muted">{{ package.description }}</p>
+        {% endif %}
+        <ul class="features">
+            {% for feature in package.features %}
+                <li>{{ icon("check") }} {{ feature.label }}</li>
+            {% endfor %}
+        </ul>
+        {% if package.notes %}
+            <small class="package-notes">{{ package.notes }}</small>
+        {% endif %}
+        <a
+            class="button {{ 'secondary' if not package.featured else '' }}"
+            href="{{ whatsapp_url(package) or url_for('public.contact',paket=package.id) }}"
+            {% if whatsapp_url(package) %} target="_blank" rel="noopener noreferrer" {% endif %}
+        >Tanya Paket {{ icon("arrow-up-right") }}</a>
+    </article>
+{% endmacro %}
+{% macro event_card(event) %}
+    <article class="event-card">
+        <a href="{{ url_for('public.event_detail',slug=event.slug) }}">
+            <div class="event-image">
+                {{ photo(event.cover) }}
+                {% if event.category %}
+                    <span class="event-category">{{ event.category.name }}</span>
+                {% endif %}
+            </div>
+            <p class="eyebrow">
+                {{ event.date.strftime("%d.%m.%Y") }}
+                {% if event.is_demo %}
+                    · DEMO
+                {% endif %}
+            </p>
+            <h3>{{ event.title }} {{ icon("arrow-up-right") }}</h3>
+            <p class="muted">
+                {{ event.venue }}
+                {% if event.location %}
+                    · {{ event.location }}
+                {% endif %}
+            </p>
+        </a>
+    </article>
+{% endmacro %}
+{% macro pagination(p, endpoint, kategori='', tahun='') %}
+    {% if p.pages>1 %}
+        <nav class="pagination" aria-label="Halaman hasil">
+            {% if p.has_prev %}
+                <a
+                    class="button secondary"
+                    href="{{ url_for(endpoint,page=p.prev_num,kategori=kategori,tahun=tahun) }}"
+                >Sebelumnya</a>
+            {% endif %}
+            <span>{{ p.page }} / {{ p.pages }}</span>
+            {% if p.has_next %}
+                <a
+                    class="button secondary"
+                    href="{{ url_for(endpoint,page=p.next_num,kategori=kategori,tahun=tahun) }}"
+                >Berikutnya</a>
+            {% endif %}
+        </nav>
+    {% endif %}
+{% endmacro %}

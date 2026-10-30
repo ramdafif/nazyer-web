@@ -1,0 +1,75 @@
+.button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    border: 1px solid transparent;
+    border-radius: 8px;
+    background: #8146d5;
+    color: white;
+    padding: 12px 20px;
+    font-weight: 600;
+    font-size: 13px;
+    min-height: 46px;
+    transition: background .2s, transform .2s
+}
+
+.button:hover {
+    background: #935ae5
+}
+
+.button.secondary {
+    background: transparent;
+    border-color: #6c4b92
+}
+
+.site-credit {
+    display: grid;
+    gap: 4px;
+    line-height: 1.6
+}
+
+.site-credit small {
+    font-size: 11px;
+    color: var(--muted)
+}
+
+.developer-credit span {
+    color: var(--text)
+}
+
+.auth-shell {
+    width: min(480px, calc(100% - 40px));
+    margin: 8vh auto
+}
+
+.auth-shell h1 {
+    font-size: 36px
+}
+
+.auth-card {
+    margin-top: 42px;
+    padding: 28px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius)
+}
+
+.auth-card .button {
+    width: 100%;
+    margin-top: 10px
+}
+
+.wordmark {
+    font-family: var(--heading);
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: -1px
+}
+
+.wordmark span {
+    font: 10px var(--body);
+    margin-left: 12px;
+    letter-spacing: 2px;
+    color: var(--purple)
+}

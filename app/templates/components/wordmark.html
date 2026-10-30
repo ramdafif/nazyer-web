@@ -1,0 +1,11 @@
+{% if site_media.get("logo_id") %}
+    <img
+        class="brand-logo"
+        src="{{ url_for('public.uploaded_file',filename=site_media.logo_id.small) }}"
+        alt="{{ site.get('wordmark') or artist.display_name }}"
+        width="{{ site_media.logo_id.width }}"
+        height="{{ site_media.logo_id.height }}"
+    >
+{% else %}
+    {{ site.get("wordmark") or artist.display_name }}
+{% endif %}

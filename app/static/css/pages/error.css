@@ -1,0 +1,83 @@
+.error-page {
+    width: min(1000px, calc(100% - 48px));
+    margin: auto;
+    min-height: calc(100svh - 108px);
+    padding: 64px 0;
+    display: grid;
+    grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+    align-items: center;
+    gap: 56px
+}
+
+.error-copy .wordmark {
+    display: inline-block;
+    margin-bottom: 48px
+}
+
+.error-copy h1 {
+    margin: 18px 0 24px;
+    font-size: clamp(36px, 4.8vw, 64px);
+    max-width: 540px
+}
+
+.error-copy>.muted {
+    max-width: 440px;
+    font-size: 14px
+}
+
+.error-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 28px
+}
+
+.error-visual {
+    width: min(100%, 320px);
+    justify-self: center;
+    position: relative;
+    isolation: isolate
+}
+
+.error-visual::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse, #8b5cf621, transparent 70%);
+    z-index: -1
+}
+
+.error-visual img {
+    width: 100%;
+    height: auto
+}
+
+.error-footer {
+    width: min(1000px, calc(100% - 48px));
+    margin: auto;
+    padding: 20px 0 28px;
+    border-top: 1px solid var(--border);
+    text-align: center
+}
+
+@media(max-width: 680px) {
+    .error-page {
+        min-height: auto;
+        padding: 32px 0 40px;
+        grid-template-columns: minmax(0, 1fr);
+        gap: 20px
+    }
+
+    .error-visual {
+        grid-row: 1;
+        width: 180px
+    }
+
+    .error-copy .wordmark {
+        margin-bottom: 28px
+    }
+
+    .error-actions .button {
+        width: 100%
+    }
+}

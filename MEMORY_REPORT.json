@@ -1,0 +1,26 @@
+{
+  "environment": "Linux, Python 3.12, isolated SQLite, loopback TCP override; not production MySQL/Unix socket",
+  "workers": 2,
+  "preload": true,
+  "public_warm": {
+    "pss_mib": null,
+    "rss_mib": 204.11,
+    "processes": 3
+  },
+  "cms_warm": {
+    "pss_mib": null,
+    "rss_mib": 220.73,
+    "processes": 3
+  },
+  "concurrent_uploads": {
+    "requests": 2,
+    "image_pixels": 7200000,
+    "http_statuses": [
+      302,
+      422
+    ]
+  },
+  "peak_pss_mib": null,
+  "peak_rss_sum_mib": 292.94,
+  "note": "PSS accounts for shared preloaded pages once; summed RSS double-counts them. If /proc is unavailable, PSS is null and RSS is a conservative sum of per-process getrusage peaks. Production budget must be measured on the VPS."
+}

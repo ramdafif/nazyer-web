@@ -1,0 +1,50 @@
+{% extends "public/layout.html" %}
+{% from 'components/media.html' import photo %}
+{% block content %}
+    <section class="page-intro container">
+        <p class="eyebrow">BEHIND THE SOUND</p>
+        <h1>
+            More Than<br>
+            <span>Just Music.</span>
+        </h1>
+    </section>
+    <section class="section">
+        <div class="container about-grid">
+            <div class="about-portrait">{{ photo(artist.portrait_media) }}</div>
+            <div class="about-copy">
+                <p class="eyebrow">{{ artist.display_name }}</p>
+                <h2>
+                    Music. People.<br>Connection.
+                </h2>
+                <div class="prose">
+                    {{- artist.biography
+                        or artist.bio_summary
+                        or 'Biografi DJ NAZYER sedang disiapkan. Hubungi kami untuk mengenal lebih dekat dan membicarakan konsep acara Anda.' -}}
+                </div>
+                {% if artist.genres %}
+                    <h3>Genre & Sound</h3>
+                    <p class="muted">{{ artist.genres }}</p>
+                {% endif %}
+                {% if artist.philosophy %}
+                    <h3>Filosofi Performance</h3>
+                    <p class="prose muted">{{- artist.philosophy -}}</p>
+                {% endif %}
+                {% if artist.career_highlights %}
+                    <h3>Perjalanan</h3>
+                    <p class="prose muted">{{- artist.career_highlights -}}</p>
+                {% endif %}
+                {% if artist.highlights %}
+                    <div class="highlight-strip">
+                        {% for highlight in artist.highlights %}
+                            <div>
+                                <strong>{{ highlight.value }}</strong>
+                                <span>{{ highlight.label }}</span>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </section>
+    {% include "public/contact_cta.html" %}
+{% endblock %}

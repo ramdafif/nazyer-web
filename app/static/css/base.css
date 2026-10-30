@@ -1,0 +1,179 @@
+* {
+    box-sizing: border-box
+}
+
+html {
+    color-scheme: dark;
+    scroll-behavior: smooth
+}
+
+body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font: 15px/1.65 var(--body)
+}
+
+a {
+    color: inherit;
+    text-decoration: none
+}
+
+button,
+input,
+select,
+textarea {
+    font: inherit
+}
+
+button,
+a,
+input,
+select,
+textarea {
+    -webkit-tap-highlight-color: transparent
+}
+
+button {
+    cursor: pointer
+}
+
+img {
+    display: block;
+    max-width: 100%;
+    height: auto
+}
+
+h1,
+h2,
+h3 {
+    font-family: var(--heading);
+    line-height: 1.1;
+    letter-spacing: -.04em
+}
+
+h1 {
+    font-size: clamp(38px, 5vw, 72px)
+}
+
+h2 {
+    font-size: clamp(30px, 3.2vw, 44px)
+}
+
+h3 {
+    font-size: 22px
+}
+
+p {
+    margin: 0 0 1.25em
+}
+
+::selection {
+    background: #7541bc;
+    color: white
+}
+
+:focus-visible {
+    outline: 3px solid var(--purple);
+    outline-offset: 4px
+}
+
+.container {
+    width: min(var(--container), calc(100% - 48px));
+    margin: auto
+}
+
+.muted {
+    color: var(--muted)
+}
+
+.eyebrow {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: .23em;
+    color: var(--purple);
+    text-transform: uppercase
+}
+
+.skip-link {
+    position: fixed;
+    left: 12px;
+    top: -80px;
+    z-index: 1000;
+    background: var(--text);
+    color: var(--bg);
+    padding: 10px
+}
+
+.skip-link:focus {
+    top: 12px
+}
+
+.field {
+    display: grid;
+    gap: 8px;
+    margin: 18px 0
+}
+
+.field label {
+    font-weight: 500;
+    font-size: 13px
+}
+
+input,
+select,
+textarea {
+    background: #100c17;
+    border: 1px solid #494052;
+    border-radius: 8px;
+    color: var(--text);
+    padding: 12px;
+    min-width: 0;
+    width: 100%
+}
+
+input[type=checkbox] {
+    width: auto;
+    accent-color: var(--accent)
+}
+
+textarea {
+    min-height: 130px;
+    resize: vertical
+}
+
+small {
+    color: var(--muted);
+    font-size: 12px
+}
+
+.field-error {
+    color: #ffb4c4
+}
+
+.flash {
+    border: 1px solid var(--border);
+    background: var(--elevated);
+    padding: 14px 24px
+}
+
+.flash.error {
+    color: #ffb4c4
+}
+
+.flash.success {
+    color: #cfb9ff
+}
+
+@media(prefers-reduced-motion:reduce) {
+    html {
+        scroll-behavior: auto
+    }
+
+    *,
+    *::before,
+    *::after {
+        animation: none !important;
+        transition: none !important
+    }
+}

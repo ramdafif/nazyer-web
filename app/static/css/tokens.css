@@ -1,0 +1,17 @@
+:root {
+    --bg: #08060d;
+    --bg-secondary: #100a19;
+    --surface: #181024;
+    --elevated: #211432;
+    --purple: #a78bfa;
+    --accent: #a855f7;
+    --text: #f8f7fc;
+    --muted: #b3adbf;
+    --border: rgba(168, 85, 247, .22);
+    --green: #2dd680;
+    --radius: 12px;
+    --container: 1200px;
+    --heading: 'Space Grotesk', sans-serif;
+    --body: 'Inter', sans-serif;
+    --space: clamp(64px, 8vw, 112px)
+}

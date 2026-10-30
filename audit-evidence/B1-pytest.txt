@@ -1,0 +1,11 @@
+........................................................................ [ 48%]
+...................................sssssssss............................ [ 96%]
+.....                                                                    [100%]
+=========================== short test summary info ============================
+SKIPPED [1] tests/test_mysql.py:105: MYSQL_TEST_URL is not configured; no real MySQL integration was run
+SKIPPED [1] tests/test_mysql.py:117: MYSQL_TEST_URL is not configured; no real MySQL integration was run
+SKIPPED [1] tests/test_mysql.py:128: MYSQL_TEST_URL is not configured; no real MySQL integration was run
+SKIPPED [4] tests/test_mysql.py:139: MYSQL_TEST_URL is not configured; no real MySQL integration was run
+SKIPPED [1] tests/test_mysql.py:162: MYSQL_TEST_URL is not configured; no real MySQL integration was run
+SKIPPED [1] tests/test_mysql.py:280: MYSQL_TEST_URL is not configured; no real MySQL integration was run
+140 passed, 9 skipped in 43.29s

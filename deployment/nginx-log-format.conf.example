@@ -1,0 +1,9 @@
+# NEW conf.d file, loaded in the existing http {} context. Do not replace nginx.conf.
+# $uri omits the request query string. Never add $request, $request_uri, $args,
+# $query_string, request bodies, cookies, authorization or referrer fields here.
+# JSON escaping keeps quotes/control characters in untrusted user agents safe.
+log_format nazyer_safe escape=json
+    '{"remote_addr":"$remote_addr","time":"$time_iso8601",'
+    '"method":"$request_method","uri":"$uri",'
+    '"status":$status,"bytes":$body_bytes_sent,'
+    '"user_agent":"$http_user_agent"}';

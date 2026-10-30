@@ -1,0 +1,12 @@
+DJ NAZYER - COMPLETE SOURCE PACKAGE
+Revision: 51b7fe8800f51e8f305b3ddc80e736b4ddc6ac03
+
+Contains all tracked application source, assets, original mascot drawings,
+migrations, tests, dependency locks, documentation, deployment examples,
+Git history and test logs. No application changes were made for this repack.
+Large historical screenshot/HTML audit captures are excluded to reduce
+download size. The audit Markdown reports remain included.
+
+Windows: download the entire ZIP to disk before using Extract All.
+Extract to a short path such as C:\Projects\DJ_NAZYER.
+See README.md for setup; do not open Flask templates as static web pages.

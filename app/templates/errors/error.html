@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% if code == 404 %}
+    {% set site = site|default({'site_title': 'DJ NAZYER'}) %}
+{% endif %}
+{% block head %}
+    {% if code == 404 %}
+        <link rel="stylesheet" href="{{ asset_url('css/pages/error.css') }}">
+        <meta name="robots" content="noindex, follow">
+    {% endif %}
+{% endblock %}
+{% block body %}
+    {% if code == 404 %}
+        <main id="main" class="error-page">
+            <div class="error-copy">
+                <a class="wordmark" href="{{ url_for('public.home') }}">DJ NAZYER</a>
+                <p class="eyebrow">KESALAHAN 404</p>
+                <h1>Halaman tidak ditemukan.</h1>
+                <p class="muted">Tautan ini mungkin sudah berubah atau halamannya tidak tersedia. Mari kembali ke musiknya.</p>
+                <div class="error-actions">
+                    <a class="button" href="{{ url_for('public.home') }}">Kembali ke beranda</a>
+                    <a
+                        class="button secondary"
+                        href="{{ url_for('public.contact') }}"
+                    >Kontak Booking</a>
+                </div>
+            </div>
+            <div class="error-visual" aria-hidden="true">
+                <img
+                    src="{{ asset_url('images/mascot-not-found-320.webp') }}"
+                    srcset="{{ asset_url('images/mascot-not-found-320.webp') }} 320w,
+                            {{ asset_url('images/mascot-not-found-640.webp') }} 640w"
+                    sizes="(max-width: 680px) 180px,
+                           320px"
+                    width="640"
+                    height="640"
+                    alt=""
+                    decoding="async"
+                >
+            </div>
+        </main>
+        <footer class="error-footer">
+            {% include "components/site_credit.html" %}
+        </footer>
+    {% else %}
+        <main id="main" class="auth-shell">
+            <p class="eyebrow">{{ code }}</p>
+            <h1>
+                {{ {400:'Form belum dapat diproses.',
+                    403:'Akses terbatas.',
+                    404:'Halaman tidak ditemukan.',
+                    405:'Metode tidak tersedia.',
+                    413:'File terlalu besar.',
+                    429:'Terlalu banyak percobaan.',
+                    500:'Ada gangguan sementara.'}.get(code,
+                    'Terjadi kesalahan.') }}
+            </h1>
+            <p>{{ message|default("Silakan kembali ke beranda atau coba beberapa saat lagi.") }}</p>
+            <a class="button" href="{{ url_for('public.home') }}">Kembali ke beranda</a>
+        </main>
+    {% endif %}
+{% endblock %}

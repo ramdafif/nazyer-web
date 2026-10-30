@@ -1,0 +1,55 @@
+{% extends "admin/layout.html" %}
+{% from 'components/forms.html' import field %}
+{% block admin_content %}
+    <div class="admin-heading">
+        <div>
+            <p class="eyebrow">INQUIRY #{{ inquiry.id }}</p>
+            <h1>{{ inquiry.name }}</h1>
+        </div>
+        <a class="button secondary" href="{{ url_for('admin.inquiries') }}">Kembali</a>
+    </div>
+    <div class="dashboard-columns">
+        <section class="admin-panel inquiry-details">
+            <h2>Rencana Event</h2>
+            <dl>
+                <dt>Kontak</dt>
+                <dd>
+                    {{ inquiry.contact }}
+                </dd>
+                <dt>Jenis event</dt>
+                <dd>
+                    {{ inquiry.service_type.name if inquiry.service_type else 'Belum ditentukan' }}
+                </dd>
+                <dt>Tanggal event</dt>
+                <dd>
+                    {{ inquiry.event_date.strftime("%d/%m/%Y") if inquiry.event_date else 'Belum ditentukan' }}
+                </dd>
+                <dt>Lokasi</dt>
+                <dd>
+                    {{ inquiry.location }}
+                </dd>
+                <dt>Paket</dt>
+                <dd>
+                    {{ inquiry.package.name if inquiry.package else 'Konsultasi terlebih dahulu' }}
+                </dd>
+                <dt>Pesan</dt>
+                <dd class="prose">
+                    {{- inquiry.message -}}
+                </dd>
+                <dt>Diterima</dt>
+                <dd>
+                    {{ inquiry.created_at|jakarta }} WIB
+                </dd>
+            </dl>
+            <a
+                class="danger-link"
+                href="{{ url_for('admin.inquiry_delete',inquiry_id=inquiry.id) }}"
+            >Hapus Inquiry</a>
+        </section>
+        <form class="admin-editor" method="post">
+            {{ form.hidden_tag() }}
+            <h2>Tindak Lanjut</h2>
+            {{ field(form.status) }}{{ field(form.internal_notes) }}{{ form.submit(class_='button') }}
+        </form>
+    </div>
+{% endblock %}

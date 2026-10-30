@@ -1,0 +1,41 @@
+{% extends "public/layout.html" %}
+{% from 'components/public.html' import empty,pagination as pager %}
+{% from 'components/media.html' import lightbox_photo,lightbox %}
+{% block content %}
+    <section class="page-intro container">
+        <p class="eyebrow">VISUAL DIARY</p>
+        <h1>
+            Every Frame.<br>
+            <span>A Feeling.</span>
+        </h1>
+        <p class="muted">Di atas panggung. Di balik layar. Di antara momen.</p>
+    </section>
+    <section class="section compact container">
+        <nav class="filter-chips" aria-label="Kategori foto">
+            <a
+                class="chip {{ 'active' if not selected_category else '' }}"
+                href="{{ url_for('public.gallery') }}"
+            >Semua Foto</a>
+            {% for category in categories %}
+                <a
+                    class="chip {{ 'active' if selected_category==category.slug else '' }}"
+                    href="{{ url_for('public.gallery',kategori=category.slug) }}"
+                >{{ category.name }}</a>
+            {% endfor %}
+        </nav>
+        {% if pagination.items %}
+            <div class="gallery-grid">
+                {% for asset in pagination.items %}
+                    {{ lightbox_photo(asset) }}
+                {% endfor %}
+            </div>
+        {% else %}
+            {{ empty('Arsip visual sedang disiapkan.',
+                'Foto yang dipublikasikan akan tampil di sini. Sampai jumpa pada momen berikutnya.',
+                url_for('public.contact'),
+                'Diskusikan Acara Anda') }}
+        {% endif %}
+        {{ pager(pagination,'public.gallery',selected_category) }}
+    </section>
+    {{ lightbox() }}
+{% endblock %}

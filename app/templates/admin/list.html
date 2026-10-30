@@ -1,0 +1,132 @@
+{% extends "admin/layout.html" %}
+{% block admin_content %}
+    <div class="admin-heading">
+        <div>
+            <p class="eyebrow">KONTEN</p>
+            <h1>{{ title }}</h1>
+            <p class="muted">{{ pagination.total }} data tersimpan.</p>
+        </div>
+        <a
+            class="button"
+            href="{{ url_for('admin.media_upload') if kind=='media' else url_for('admin.entity_edit',
+                kind=kind) }}"
+        >{{ icon("plus") }} {{ 'Unggah Foto' if kind=='media' else 'Tambah Data' }}</a>
+    </div>
+    <form class="admin-filter" method="get">
+        <label class="sr-only" for="q">Cari {{ title }}</label>
+        <input
+            type="search"
+            id="q"
+            name="q"
+            value="{{ search }}"
+            placeholder="Cari {{ title|lower }}…"
+        >
+        {% if kind=="events" %}
+            <label class="sr-only" for="status">Status</label>
+            <select id="status" name="status">
+                <option value="">Semua status</option>
+                <option value="draft" {% if status=='draft' %} selected {% endif %}>Draft</option>
+                <option
+                    value="published"
+                    {% if status=='published' %} selected {% endif %}
+                >Terbit</option>
+            </select>
+        {% endif %}
+        <button class="button secondary">Cari</button>
+        <a class="text-link" href="{{ url_for('admin.entity_list',kind=kind) }}">Reset</a>
+    </form>
+    {% if pagination.items %}
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th scope="col">{{ 'Foto' if kind=='media' else 'Nama' }}</th>
+                        <th scope="col">Detail</th>
+                        <th scope="col">Diperbarui</th>
+                        <th scope="col">Aksi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for row in pagination.items %}
+                        <tr>
+                            <td>
+                                {% if kind=="media" %}
+                                    <div class="media-table-title">
+                                        <img
+                                            src="{{ url_for('public.uploaded_file',filename=row.thumbnail) }}"
+                                            alt="{{ row.alt_text }}"
+                                            width="64"
+                                            height="64"
+                                            loading="lazy"
+                                        >
+                                        <span>{{ row.original_name }}</span>
+                                    </div>
+                                {% else %}
+                                    <strong>{{ row|attr(title_field) }}</strong>
+                                {% endif %}
+                                {% if row.is_demo %}
+                                    <small class="demo-label">DATA DEMO</small>
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if kind=="events" %}
+                                    <span class="status">{{ 'Terbit' if row.status=='published' else 'Draft' }}</span>
+                                    <small>{{ row.date.strftime("%d/%m/%Y") }}</small>
+                                {% elif kind=="pricing" %}
+                                    <span>{{ row.price|idr }}</span>
+                                    <small>{{ 'Terbit' if row.published else 'Disembunyikan' }} · Urutan {{ row.sort_order }}</small>
+                                {% elif kind=="media" %}
+                                    <small>{{ row.width }} × {{ row.height }} · {{ (row.byte_size/1024)|round|int }} KB<br>{{ 'Publik' if row.is_public else 'Tersembunyi dari galeri' }}</small>
+                                {% elif kind=="testimonials" %}
+                                    <span
+                                        class="status"
+                                    >{{ 'Terbit' if row.published else 'Draft' }}</span>
+                                {% elif kind=="services" %}
+                                    <span
+                                        class="status"
+                                    >{{ 'Aktif' if row.active else 'Nonaktif' }}</span>
+                                {% elif kind=="highlights" %}
+                                    {{ row.value or 'Tanpa angka' }}
+                                {% else %}
+                                    {{ row.slug }}
+                                {% endif %}
+                            </td>
+                            <td>
+                                <small>{{ row.updated_at|jakarta }}</small>
+                            </td>
+                            <td>
+                                <div class="row-actions">
+                                    <a
+                                        href="{{ url_for('admin.entity_edit',kind=kind,entity_id=row.id) }}"
+                                    >Edit</a>
+                                    {% if kind=="events" and row.status=="published" %}
+                                        <a
+                                            href="{{ url_for('public.event_detail',slug=row.slug) }}"
+                                            target="_blank"
+                                            rel="noopener"
+                                        >Lihat</a>
+                                    {% endif %}
+                                    {% if kind=="pricing" %}
+                                        <a
+                                            href="{{ url_for('admin.pricing_preview',entity_id=row.id) }}"
+                                        >Pratinjau</a>
+                                    {% endif %}
+                                    <a
+                                        class="danger-link"
+                                        href="{{ url_for('admin.entity_delete',kind=kind,entity_id=row.id) }}"
+                                    >Hapus</a>
+                                </div>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <div class="admin-empty">
+            <h2>Belum ada data.</h2>
+            <p>Tambahkan konten baru atau ubah pencarian.</p>
+        </div>
+    {% endif %}
+    {% include "admin/pagination.html" %}
+{% endblock %}

@@ -1,0 +1,72 @@
+{% extends "admin/layout.html" %}
+{% from 'components/forms.html' import field %}
+{% block admin_content %}
+    <div class="admin-heading">
+        <div>
+            <p class="eyebrow">EDITOR KONTEN</p>
+            <h1>{{ title }}</h1>
+        </div>
+        {% if kind not in ["profile","settings"] %}
+            <a
+                class="button secondary"
+                href="{{ url_for('admin.entity_list',kind=kind) }}"
+            >Kembali</a>
+        {% endif %}
+    </div>
+    {% if kind=="profile" %}
+        <p class="admin-tip">
+            Kelola
+            <a
+                href="{{ url_for('admin.entity_list',kind='highlights') }}"
+            >highlight dan statistik</a>
+            secara terpisah. Kontak dan sosial tersedia di
+            <a href="{{ url_for('admin.settings_edit') }}">Pengaturan</a>.
+        </p>
+    {% elif kind=="events" %}
+        <p class="admin-tip">Simpan event, lalu <a
+     href="{{ url_for('admin.media_upload',
+         event=obj.id) if obj.id else url_for('admin.media_upload') }}"
+ >unggah foto</a> atau pilih dari media library.</p>
+    {% endif %}
+    {% if kind=="media" %}
+        <div class="media-preview">
+            <img
+                src="{{ url_for('public.uploaded_file',filename=obj.small) }}"
+                alt="{{ obj.alt_text }}"
+                width="{{ obj.width }}"
+                height="{{ obj.height }}"
+            >
+            <p>{{ obj.width }} × {{ obj.height }} px · {{ obj.original_name }}</p>
+        </div>
+    {% endif %}
+    <form method="post" class="admin-editor" data-kind="{{ kind }}">
+        {{ form.hidden_tag() }}
+        {% if form.errors %}
+            <div class="form-summary" role="alert">Periksa kolom yang ditandai.</div>
+        {% endif %}
+        <div class="editor-fields">
+            {% for f in form if f.type not in ['CSRFTokenField','HiddenField','SubmitField'] %}
+                {{ field(f) }}
+            {% endfor %}
+        </div>
+        {% if kind=="events" %}
+            <section class="gallery-order-section">
+                <h2>Urutan Foto Galeri</h2>
+                <p
+                    class="muted"
+                >Foto yang dipilih muncul di bawah. Gunakan Naik/Turun untuk mengubah urutan.</p>
+                <ol id="gallery-order" class="gallery-order">
+                </ol>
+            </section>
+        {% endif %}
+        <div class="editor-actions">
+            {{ form.submit(class_='button') }}
+            {% if obj and obj.id and kind=="pricing" %}
+                <a
+                    class="button secondary"
+                    href="{{ url_for('admin.pricing_preview',entity_id=obj.id) }}"
+                >Pratinjau Paket</a>
+            {% endif %}
+        </div>
+    </form>
+{% endblock %}

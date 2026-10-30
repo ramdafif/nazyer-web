@@ -1,0 +1,31 @@
+[Unit]
+Description=DJ NAZYER Flask website
+After=network.target mysql.service
+
+[Service]
+Type=simple
+User=nazyer
+Group=www-data
+WorkingDirectory=/srv/dj-nazyer/current
+EnvironmentFile=/etc/dj-nazyer.env
+RuntimeDirectory=dj-nazyer
+RuntimeDirectoryMode=0750
+UMask=0027
+ExecStart=/srv/dj-nazyer/venv/bin/gunicorn --config /srv/dj-nazyer/current/deployment/gunicorn.conf.py wsgi:app
+# preload_app=True keeps code in the master; deploy code with:
+# systemctl restart dj-nazyer (no ExecReload/HUP shortcut).
+Restart=on-failure
+RestartSec=5
+TimeoutStopSec=45
+KillSignal=SIGTERM
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/var/lib/dj-nazyer /run/dj-nazyer
+# Optional ceiling, enable after measuring concurrent uploads on your VPS.
+# MemoryMax=180M
+# MemoryHigh=150M
+
+[Install]
+WantedBy=multi-user.target

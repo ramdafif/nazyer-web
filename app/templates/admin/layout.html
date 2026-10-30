@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+{% from 'components/icons.html' import icon %}
+{% block head %}
+    <meta name="robots" content="noindex,nofollow">
+    <link rel="stylesheet" href="{{ asset_url('css/pages/admin.css') }}">
+    <script src="{{ asset_url('js/admin.js') }}" defer></script>
+{% endblock %}
+{% block body %}
+    <div class="admin-shell">
+        <aside class="admin-sidebar">
+            <a class="wordmark" href="{{ url_for('admin.dashboard') }}">DJ NAZYER<span>CMS</span>
+            </a>
+            <p class="sidebar-label">BACKSTAGE</p>
+            <nav aria-label="Navigasi admin">
+                <a
+                    href="{{ url_for('admin.dashboard') }}"
+                >{{ icon("layout-dashboard") }} Dashboard</a>
+                {% for kind,
+                    label,
+                    img in [('events',
+                        'Event & Recap',
+                        'calendar'),
+                        ('media',
+                            'Media Library',
+                            'image'),
+                            ('pricing',
+                                'Pricelist',
+                                'headphones'),
+                                ('services',
+                                    'Jenis Event',
+                                    'music'),
+                                    ('testimonials',
+                                        'Testimoni',
+                                        'star'),
+                                        ('highlights',
+                                            'Highlight Profil',
+                    'plus')] %}
+                    <a
+                        href="{{ url_for('admin.entity_list',kind=kind) }}"
+                    >{{ icon(img) }} {{ label }}</a>
+                {% endfor %}
+                <a href="{{ url_for('admin.profile_edit') }}">{{ icon("users") }} Profil Artis</a>
+                <a
+                    href="{{ url_for('admin.inquiries') }}"
+                >{{ icon("message-square") }} Booking Inquiry</a>
+                <a href="{{ url_for('admin.settings_edit') }}">{{ icon("settings") }} Pengaturan</a>
+            </nav>
+            <p class="sidebar-label">ORGANISASI</p>
+            <nav aria-label="Kategori">
+                <a
+                    href="{{ url_for('admin.entity_list',kind='event-categories') }}"
+                >Kategori Event</a>
+                <a
+                    href="{{ url_for('admin.entity_list',kind='gallery-categories') }}"
+                >Kategori Galeri</a>
+            </nav>
+            <div class="sidebar-bottom">
+                <a
+                    href="{{ url_for('public.home') }}"
+                    target="_blank"
+                    rel="noopener"
+                >{{ icon("external-link") }} Lihat Website</a>
+                <a href="{{ url_for('auth.password') }}">{{ icon("lock") }} Ganti Password</a>
+                <form method="post" action="{{ url_for('auth.logout') }}">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                    <button type="submit">{{ icon("log-out") }} Keluar</button>
+                </form>
+            </div>
+        </aside>
+        <div class="admin-workspace">
+            <header class="admin-topbar">
+                <span>{{ title }}</span>
+                <span class="admin-user">{{ current_user.username }} <span class="avatar">{{ current_user.username[:1]|upper }}</span>
+                </span>
+            </header>
+            <main id="main" class="admin-main">
+                {% block admin_content %}{% endblock %}
+            </main>
+            <footer class="admin-footer">
+                DJ NAZYER CMS · Waktu ditampilkan dalam WIB
+            </footer>
+        </div>
+    </div>
+{% endblock %}

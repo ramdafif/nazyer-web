@@ -1,0 +1,13 @@
+# REQUIRED deployment protection shared by all Nginx/Gunicorn workers.
+# Include these uniquely named zones in nginx's http {} context, e.g. a NEW
+# /etc/nginx/conf.d/dj-nazyer-rate-limits.conf. Do not replace nginx.conf.
+map $request_method $nazyer_write_key {
+    default "";
+    POST $binary_remote_addr;
+}
+limit_req_zone $nazyer_write_key zone=nazyer_login:1m rate=5r/m;
+limit_req_zone $nazyer_write_key zone=nazyer_inquiry:1m rate=3r/m;
+
+# deployment/nginx.conf already applies these zones to the exact login/contact
+# locations. Install both examples together after review; do not duplicate locations.
+# An empty key exempts GET/HEAD; POST uses the direct client's IP address.

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="id">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>{{ title }} · {{ site.get('site_title', 'DJ NAZYER') if site is defined else 'DJ NAZYER CMS' }}</title>
+        <link rel="stylesheet" href="{{ asset_url('css/tokens.css') }}">
+        <link rel="stylesheet" href="{{ asset_url('css/base.css') }}">
+        <link rel="stylesheet" href="{{ asset_url('css/components.css') }}">
+        {% block head %}{% endblock %}
+    </head>
+    <body>
+        <a class="skip-link" href="#main">Langsung ke konten</a>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% for category,message in messages %}
+                <div class="flash {{ category }}" role="status">{{ message }}</div>
+            {% endfor %}
+        {% endwith %}
+        {% block body %}{% endblock %}
+    </body>
+</html>
